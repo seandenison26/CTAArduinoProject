@@ -1,0 +1,72 @@
+/**************************************
+Arduino Code for Bus Tracker Decoration
+Sean Denison - 2016
+
+LEDs for: 
+Irving Park Blue Line - Pin 1
+#80 Irving and Ridgeway East Bound - Pin 2
+#78 Montrose and Ridgeway East Bound - Pin 3 
+Kimball and Berteau North Bound - Pin 4
+Kimball and Berteau South Bound - Pin 5
+Pulaski and Berteau South Bound - Pin 6
+Pulaski and Berteau North Bound - Pin 7
+**************************************/
+
+
+int pins[1,2,3,4,5,6,7];
+int walkTime[5,5,5,5,5,5,5]; /*Time needed to walk to station*/
+
+void setup() {
+  for (int i = 0; i < pinArray.length;i++) {
+    pins(pinArray[i], OUTPUT);
+  }
+}
+
+/********************
+LED Signal Functions
+********************/
+
+/*Bus farther than 10 minutes plus walk time*/
+void noBus(int pin) {
+  digitalWrite(pin, LOW);
+}
+
+/*At 10 minutes plus walk time LED will begin to blink faster as the duration until walk time shortens.*/
+void busEnRoute(int pin, int wait) { 
+  digitalWrite(pin, HIGH);
+  delay(wait);
+  digitalWrite(pin,LOW)
+  delay(wait);
+}
+
+/*At walk time the LED will remain on for three minutes*/
+void walkToBus (int pin) {
+  digitalWrite(pin, LOW);
+}
+
+void tracker(int pin, int walkTime) {
+  int busTime = #; /*Value taken from the web server based on bus route*/
+  walkTime = walkTime; /*Walk time set by the user based on each station*/
+    
+  if (busTime - walkTime > 10 || busTime - walkTime < -3  ) {
+      noBus(pin);  
+}
+  else if (busTime - walkTime <= 10) {
+      busEnRoute(pin, 500);
+}
+  else if (busTime <= 0) {
+      walkToBus(pin);
+}
+
+void loop {
+for (int i = 0; i < pins.length; i++) {
+    tracker(pin[i],walkTime[i]);
+  }
+}
+
+/*Dev Questions
+Would it look better to to have the LEDs "glow" with PWM? Analog pins on board are 3, 5, 6, 9, 10, 11. Already have 7 locations.
+Will the blinking LEDs be too much of a distraction? Should you be able to put it in an alternate "non bus track" mode? 
+What will happen if two buses arrive within the same walk time plus ten minutes time frame?
+Still need to write webserver and wifi server access
+*/
