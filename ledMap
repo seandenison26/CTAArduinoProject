@@ -69,4 +69,5 @@ Would it look better to to have the LEDs "glow" with PWM? Analog pins on board a
 Will the blinking LEDs be too much of a distraction? Should you be able to put it in an alternate "non bus track" mode? 
 What will happen if two buses arrive within the same walk time plus ten minutes time frame?
 Still need to write webserver and wifi server access
+Will the arduino cycle through the tracker functions fast enough so that the busEnRoute function is actually blinking? 
 */
